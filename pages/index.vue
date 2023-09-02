@@ -1,5 +1,4 @@
 <template>
-  <!-- <Tutorial /> -->
   <TodoContainer />
 </template>
 
