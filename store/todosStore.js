@@ -9,11 +9,9 @@ export const getters = {
 }
 
 export const mutations = {
-  addTodo() {
-    if (this.todo.text.trim() !== '') {
-      this.todos.push({ text: this.todo.text })
-      this.todo.text = ''
-      this.$emit('todos-updated', this.todos)
+  addTodo(state, NewTodo) {
+    if (NewTodo.text.trim() !== '') {
+      state.todos.push(NewTodo)
     }
   },
 }

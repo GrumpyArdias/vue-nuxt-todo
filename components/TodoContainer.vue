@@ -4,16 +4,9 @@
       <form @submit.prevent="addTodo">
         <div class="form-group">
           <label for="newTask">Add a new Task</label>
-          <input id="newTask" v-model="todo.text" type="text" />
+          <input id="newTask" v-model="newTask" type="text" />
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary"
-          :disabled="buttonIsDisabled"
-          :class="{ disabled: buttonIsDisabled }"
-        >
-          Add
-        </button>
+        <button type="submit" class="btn btn-primary">Add</button>
       </form>
     </div>
     <TodosGrid :todos="todos" />
@@ -21,6 +14,7 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
 import TodosGrid from './TodoCardGrid.vue'
 
 export default {
@@ -28,12 +22,17 @@ export default {
   components: {
     TodosGrid,
   },
+
   data() {
     return {
-      todos: [],
-      todo: { text: '' },
-      buttonIsDisabled: true,
+      newTask: '',
     }
+  },
+  computed: {
+    todos() {
+      const store = useStore()
+      return store.state.todosStore.todos
+    },
   },
   watch: {
     'todo.text': function (newText) {
@@ -42,11 +41,11 @@ export default {
   },
   methods: {
     addTodo() {
-      if (this.todo.text.trim() !== '') {
-        this.todos.push({ text: this.todo.text })
-        this.todo.text = ''
-        this.$emit('todos-updated', this.todos)
+      if (this.newTask.trim() === '') {
+        return
       }
+      this.$store.commit('addTodo', { text: this.newTask })
+      this.newTask = ''
     },
   },
 }
