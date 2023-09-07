@@ -1,5 +1,5 @@
 <template>
-  <div class="todoGrid">
+  <div v-if="todo.length > 0" class="todoGrid">
     <TodoCard v-for="(todo, index) in todos" :key="index" :todo="todo" />
   </div>
 </template>
